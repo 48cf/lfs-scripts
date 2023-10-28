@@ -12,3 +12,10 @@ Inside chroot:
 
 - Run /var/lfs/make_base_files.sh
 - Run /var/lfs/build_temp.sh (preferably in /root)
+- Run /var/lfs/build_distro.sh (preferably in /root)
+
+Notes:
+
+- The build_distro.sh script won't install the built packages, it will only
+    add them to the repository (distro-repo/) using xbps-rindex. If you wish to
+    install them, run xbps-install --repository=distro-repo/ pkgname.

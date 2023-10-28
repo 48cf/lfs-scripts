@@ -22,4 +22,5 @@ esac
 
 install -m 0755 "${base_dir}/tools/make_base_files.sh" "${mnt_path}/var/lfs/"
 install -m 0755 "${base_dir}/build_temp.sh" "${mnt_path}/var/lfs/"
+install -m 0755 "${base_dir}/build_distro.sh" "${mnt_path}/var/lfs/"
 install -m 0755 "${base_dir}/download_sources.sh" "${mnt_path}/var/lfs/"

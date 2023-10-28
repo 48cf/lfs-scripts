@@ -22,6 +22,9 @@ fi
 
 sources=(
   https://www.linuxfromscratch.org/patches/lfs/development/glibc-2.38-fhs-1.patch
+  https://www.linuxfromscratch.org/patches/lfs/development/glibc-2.38-upstream_fixes-3.patch
+  https://www.linuxfromscratch.org/patches/lfs/development/bzip2-1.0.8-install_docs-1.patch
+  https://www.linuxfromscratch.org/patches/lfs/development/readline-8.2-upstream_fix-1.patch
 
   https://sourceware.org/pub/binutils/releases/binutils-2.41.tar.xz
   https://ftp.gnu.org/gnu/gcc/gcc-13.2.0/gcc-13.2.0.tar.xz
@@ -61,6 +64,13 @@ sources=(
   https://github.com/libarchive/libarchive/releases/download/v3.7.1/libarchive-3.7.1.tar.xz
   https://github.com/void-linux/xbps/archive/refs/tags/0.59.2.tar.gz:xbps-0.59.2.tar.gz
   https://ftp.gnu.org/gnu/wget/wget-1.21.4.tar.gz
+
+  https://www.kernel.org/pub/linux/docs/man-pages/man-pages-6.05.01.tar.xz
+  https://github.com/Mic92/iana-etc/releases/download/20230929/iana-etc-20230929.tar.gz
+  https://www.sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
+  https://ftp.gnu.org/gnu/readline/readline-8.2.tar.gz
+  https://github.com/gavinhoward/bc/releases/download/6.7.0/bc-6.7.0.tar.xz
+  https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
 )
 
 for source in ${sources[@]}; do
