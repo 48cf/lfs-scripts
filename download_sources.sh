@@ -48,6 +48,7 @@ sources=(
   https://distfiles.ariadne.space/pkgconf/pkgconf-2.0.3.tar.xz
   https://zlib.net/fossils/zlib-1.3.tar.gz
   https://www.openssl.org/source/openssl-3.1.3.tar.gz
+  https://github.com/facebook/zstd/releases/download/v1.5.5/zstd-1.5.5.tar.gz
   https://github.com/libarchive/libarchive/releases/download/v3.7.1/libarchive-3.7.1.tar.xz
   https://github.com/void-linux/xbps/archive/refs/tags/0.59.2.tar.gz:xbps-0.59.2.tar.gz
   https://ftp.gnu.org/gnu/wget/wget-1.21.4.tar.gz

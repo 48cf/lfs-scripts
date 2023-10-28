@@ -337,6 +337,28 @@ if ! [ -f "${build_dir}/.openssl_installed" ]; then
   touch "${build_dir}/.openssl_installed"
 fi
 
+# Build zstd
+
+if ! [ -f "${build_dir}/.zstd_prepared" ]; then
+  cd "${build_dir}"
+  tar -xf "/var/lfs/sources/zstd-1.5.5.tar.gz"
+  mv "zstd-1.5.5" "zstd-src"
+  touch "${build_dir}/.zstd_prepared"
+fi
+
+if ! [ -f "${build_dir}/.zstd_built" ]; then
+  cd "${build_dir}/zstd-src"
+  make prefix=/usr -j
+  touch "${build_dir}/.zstd_built"
+fi
+
+if ! [ -f "${build_dir}/.zstd_installed" ]; then
+  cd "${build_dir}/zstd-src"
+  make prefix=/usr install
+  rm /usr/lib/libzstd.a
+  touch "${build_dir}/.zstd_installed"
+fi
+
 # Build libarchive
 
 if ! [ -f "${build_dir}/.libarchive_prepared" ]; then
