@@ -44,6 +44,12 @@ sources=(
   https://www.python.org/ftp/python/3.11.5/Python-3.11.5.tar.xz
   https://ftp.gnu.org/gnu/texinfo/texinfo-7.0.3.tar.xz
   https://www.kernel.org/pub/linux/utils/util-linux/v2.39/util-linux-2.39.2.tar.xz
+  https://ftp.gnu.org/gnu/which/which-2.21.tar.gz
+  https://distfiles.ariadne.space/pkgconf/pkgconf-2.0.3.tar.xz
+  https://zlib.net/fossils/zlib-1.3.tar.gz
+  https://www.openssl.org/source/openssl-3.1.3.tar.gz
+  https://github.com/libarchive/libarchive/releases/download/v3.7.1/libarchive-3.7.1.tar.xz
+  https://github.com/void-linux/xbps/archive/refs/tags/0.59.2.tar.gz
 )
 
 for source in ${sources[@]}; do

@@ -209,9 +209,187 @@ if ! [ -f "${build_dir}/.util-linux_installed" ]; then
   touch "${build_dir}/.util-linux_installed"
 fi
 
-# Clean up system
+# Build which
 
-rm -rf /var/lfs/tools
-rm -rf /usr/share/{info,man,doc}/*
+if ! [ -f "${build_dir}/.which_prepared" ]; then
+  cd "${build_dir}"
+  tar -xf "/var/lfs/sources/which-2.21.tar.gz"
+  mv "which-2.21" "which-src"
+  touch "${build_dir}/.which_prepared"
+fi
 
-find /usr/{lib,libexec} -name \*.la -delete
+if ! [ -f "${build_dir}/.which_configured" ]; then
+  mkdir -p "${build_dir}/which-build"
+  cd "${build_dir}/which-build"
+  "${build_dir}/which-src/configure" \
+    --prefix=/usr
+  touch "${build_dir}/.which_configured"
+fi
+
+if ! [ -f "${build_dir}/.which_built" ]; then
+  cd "${build_dir}/which-build"
+  make -j
+  touch "${build_dir}/.which_built"
+fi
+
+if ! [ -f "${build_dir}/.which_installed" ]; then
+  cd "${build_dir}/which-build"
+  make install
+  touch "${build_dir}/.which_installed"
+fi
+
+# Build pkgconf
+
+if ! [ -f "${build_dir}/.pkgconf_prepared" ]; then
+  cd "${build_dir}"
+  tar -xf "/var/lfs/sources/pkgconf-2.0.3.tar.xz"
+  mv "pkgconf-2.0.3" "pkgconf-src"
+  sed -i 's/str\(cmp.*package\)/strn\1, strlen(pkg->why)/' "${build_dir}/pkgconf-src/cli/main.c"
+  touch "${build_dir}/.pkgconf_prepared"
+fi
+
+if ! [ -f "${build_dir}/.pkgconf_configured" ]; then
+  mkdir -p "${build_dir}/pkgconf-build"
+  cd "${build_dir}/pkgconf-build"
+  "${build_dir}/pkgconf-src/configure" \
+    --prefix=/usr \
+    --disable-static \
+    --docdir=/usr/share/doc/pkgconf-2.0.3
+  touch "${build_dir}/.pkgconf_configured"
+fi
+
+if ! [ -f "${build_dir}/.pkgconf_built" ]; then
+  cd "${build_dir}/pkgconf-build"
+  make -j
+  touch "${build_dir}/.pkgconf_built"
+fi
+
+if ! [ -f "${build_dir}/.pkgconf_installed" ]; then
+  cd "${build_dir}/pkgconf-build"
+  make install
+  ln -s pkgconf /usr/bin/pkg-config
+  ln -s pkgconf.1 /usr/share/man/man1/pkg-config.1
+  touch "${build_dir}/.pkgconf_installed"
+fi
+
+# Build zlib
+
+if ! [ -f "${build_dir}/.zlib_prepared" ]; then
+  cd "${build_dir}"
+  tar -xf "/var/lfs/sources/zlib-1.3.tar.gz"
+  mv "zlib-1.3" "zlib-src"
+  touch "${build_dir}/.zlib_prepared"
+fi
+
+if ! [ -f "${build_dir}/.zlib_configured" ]; then
+  mkdir -p "${build_dir}/zlib-build"
+  cd "${build_dir}/zlib-build"
+  "${build_dir}/zlib-src/configure" \
+    --prefix=/usr
+  touch "${build_dir}/.zlib_configured"
+fi
+
+if ! [ -f "${build_dir}/.zlib_built" ]; then
+  cd "${build_dir}/zlib-build"
+  make -j
+  touch "${build_dir}/.zlib_built"
+fi
+
+if ! [ -f "${build_dir}/.zlib_installed" ]; then
+  cd "${build_dir}/zlib-build"
+  make install
+  rm -f /usr/lib/libz.a
+  touch "${build_dir}/.zlib_installed"
+fi
+
+# Build openssl
+
+if ! [ -f "${build_dir}/.openssl_prepared" ]; then
+  cd "${build_dir}"
+  tar -xf "/var/lfs/sources/openssl-3.1.3.tar.gz"
+  mv "openssl-3.1.3" "openssl-src"
+  touch "${build_dir}/.openssl_prepared"
+fi
+
+if ! [ -f "${build_dir}/.openssl_configured" ]; then
+  cd "${build_dir}/openssl-src"
+  ./config \
+    --prefix=/usr \
+    --openssldir=/etc/ssl \
+    --libdir=lib \
+    shared \
+    zlib-dynamic
+  touch "${build_dir}/.openssl_configured"
+fi
+
+if ! [ -f "${build_dir}/.openssl_built" ]; then
+  cd "${build_dir}/openssl-src"
+  make -j
+  touch "${build_dir}/.openssl_built"
+fi
+
+if ! [ -f "${build_dir}/.openssl_installed" ]; then
+  cd "${build_dir}/openssl-src"
+  sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' "${build_dir}/openssl-src/Makefile"
+  make MANSUFFIX=ssl install
+  mv /usr/share/doc/openssl /usr/share/doc/openssl-3.1.3
+  cp -rf doc/* /usr/share/doc/openssl-3.1.3
+  touch "${build_dir}/.openssl_installed"
+fi
+
+# Build libarchive
+
+if ! [ -f "${build_dir}/.libarchive_prepared" ]; then
+  cd "${build_dir}"
+  tar -xf "/var/lfs/sources/libarchive-3.7.1.tar.xz"
+  mv "libarchive-3.7.1" "libarchive-src"
+  touch "${build_dir}/.libarchive_prepared"
+fi
+
+if ! [ -f "${build_dir}/.libarchive_configured" ]; then
+  mkdir -p "${build_dir}/libarchive-build"
+  cd "${build_dir}/libarchive-build"
+  "${build_dir}/libarchive-src/configure" \
+    --prefix=/usr \
+    --disable-static
+  touch "${build_dir}/.libarchive_configured"
+fi
+
+if ! [ -f "${build_dir}/.libarchive_built" ]; then
+  cd "${build_dir}/libarchive-build"
+  make -j
+  touch "${build_dir}/.libarchive_built"
+fi
+
+if ! [ -f "${build_dir}/.libarchive_installed" ]; then
+  cd "${build_dir}/libarchive-build"
+  make install
+  touch "${build_dir}/.libarchive_installed"
+fi
+
+# Build xbps
+
+if ! [ -f "${build_dir}/.xbps_prepared" ]; then
+  cd "${build_dir}"
+  tar -xf "/var/lfs/sources/xbps-0.59.2.tar.gz"
+  mv "xbps-0.59.2" "xbps-src"
+  touch "${build_dir}/.xbps_prepared"
+fi
+
+if ! [ -f "${build_dir}/.xbps_configured" ]; then
+  cd "${build_dir}/xbps-src"
+  CFLAGS="-Wno-error" ./configure --prefix=/usr
+  touch "${build_dir}/.xbps_configured"
+fi
+
+if ! [ -f "${build_dir}/.xbps_built" ]; then
+  cd "${build_dir}/xbps-src"
+  make -j
+  touch "${build_dir}/.xbps_built"
+fi
+
+if ! [ -f "${build_dir}/.xbps_installed" ]; then
+  cd "${build_dir}/xbps-src"
+  make install
+  touch "${build_dir}/.xbps_installed"
+fi
