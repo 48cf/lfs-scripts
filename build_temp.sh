@@ -393,3 +393,34 @@ if ! [ -f "${build_dir}/.xbps_installed" ]; then
   make install
   touch "${build_dir}/.xbps_installed"
 fi
+
+# Build wget
+
+if ! [ -f "${build_dir}/.wget_prepared" ]; then
+  cd "${build_dir}"
+  tar -xf "/var/lfs/sources/wget-1.21.4.tar.gz"
+  mv "wget-1.21.4" "wget-src"
+  touch "${build_dir}/.wget_prepared"
+fi
+
+if ! [ -f "${build_dir}/.wget_configured" ]; then
+  mkdir -p "${build_dir}/wget-build"
+  cd "${build_dir}/wget-build"
+  "${build_dir}/wget-src/configure" \
+    --prefix=/usr \
+    --sysconfdir=/etc \
+    --with-ssl=openssl
+  touch "${build_dir}/.wget_configured"
+fi
+
+if ! [ -f "${build_dir}/.wget_built" ]; then
+  cd "${build_dir}/wget-build"
+  make -j
+  touch "${build_dir}/.wget_built"
+fi
+
+if ! [ -f "${build_dir}/.wget_installed" ]; then
+  cd "${build_dir}/wget-build"
+  make install
+  touch "${build_dir}/.wget_installed"
+fi

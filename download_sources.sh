@@ -50,6 +50,7 @@ sources=(
   https://www.openssl.org/source/openssl-3.1.3.tar.gz
   https://github.com/libarchive/libarchive/releases/download/v3.7.1/libarchive-3.7.1.tar.xz
   https://github.com/void-linux/xbps/archive/refs/tags/0.59.2.tar.gz:xbps-0.59.2.tar.gz
+  https://ftp.gnu.org/gnu/wget/wget-1.21.4.tar.gz
 )
 
 for source in ${sources[@]}; do

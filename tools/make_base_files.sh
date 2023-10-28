@@ -24,6 +24,13 @@ ln -s /proc/self/mounts /etc/mtab
 install -d -m 0750 /root
 install -d -m 1777 /tmp /var/tmp
 
+cat >/etc/resolv.conf <<EOF
+# 1.1.1.1
+nameserver 1.1.1.1
+# Google
+nameserver 8.8.8.8
+EOF
+
 cat >/etc/hosts <<EOF
 127.0.0.1  localhost $(hostname)
 ::1        localhost
