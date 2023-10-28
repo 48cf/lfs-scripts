@@ -1,16 +1,23 @@
 #!/bin/bash
 
-if test $(id -u) -eq 0; then
-  echo "don't run this script as root"
-  exit 1
-fi
+if [ -d "/var/lfs/sources" ]; then
+  sources_path="/var/lfs/sources"
+  wget_flags="--no-check-certificate"
+else
+  if test $(id -u) -eq 0; then
+    echo "don't run this script as root"
+    exit 1
+  fi
 
-base_dir=$(realpath $(dirname $0))
-mnt_path="${base_dir}/mnt"
+  base_dir=$(realpath $(dirname $0))
 
-if ! [ -f "${base_dir}/.image_lock" ]; then
-  echo "image is not mounted, mount it using tools/mount.sh first"
-  exit 1
+  if ! [ -f "${base_dir}/.image_lock" ]; then
+    echo "image is not mounted, mount it using tools/mount.sh first"
+    exit 1
+  fi
+
+  sources_path="${base_dir}/mnt/var/lfs/sources"
+  wget_flags=""
 fi
 
 sources=(
@@ -63,7 +70,7 @@ for source in ${sources[@]}; do
     output_name="$(basename "${source}")"
   fi
 
-  if ! [ -f "${mnt_path}/var/lfs/sources/${output_name}" ]; then
-    wget "${url}" -O "${mnt_path}/var/lfs/sources/${output_name}"
+  if ! [ -f "${sources_path}/${output_name}" ]; then
+    wget "${url}" -O "${sources_path}/${output_name}" ${wget_flags}
   fi
 done
