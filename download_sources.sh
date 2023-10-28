@@ -49,11 +49,19 @@ sources=(
   https://zlib.net/fossils/zlib-1.3.tar.gz
   https://www.openssl.org/source/openssl-3.1.3.tar.gz
   https://github.com/libarchive/libarchive/releases/download/v3.7.1/libarchive-3.7.1.tar.xz
-  https://github.com/void-linux/xbps/archive/refs/tags/0.59.2.tar.gz
+  https://github.com/void-linux/xbps/archive/refs/tags/0.59.2.tar.gz:xbps-0.59.2.tar.gz
 )
 
 for source in ${sources[@]}; do
-  if ! [ -f "${mnt_path}/var/lfs/sources/$(basename ${source})" ]; then
-    wget -P "${mnt_path}/var/lfs/sources" "${source}"
+  if [[ "${source}" == https://*:* ]]; then
+    url="${source%:*}"
+    output_name="${source#*://*:*}"
+  else
+    url="${source}"
+    output_name="$(basename "${source}")"
+  fi
+
+  if ! [ -f "${mnt_path}/var/lfs/sources/${output_name}" ]; then
+    wget "${url}" -O "${mnt_path}/var/lfs/sources/${output_name}"
   fi
 done
