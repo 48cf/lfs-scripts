@@ -161,7 +161,7 @@ if ! [ -f "${build_dir}/.glibc_prepared" ]; then
   cd "${build_dir}"
   tar -xf "${mnt_path}/var/lfs/sources/glibc-2.38.tar.xz"
   mv "glibc-2.38" "glibc-src"
-  patch -Np1 -d "glibc-src" -i "${base_dir}/patches/glibc-2.38-fhs-1.patch"
+  patch -Np1 -d "glibc-src" -i "${mnt_path}/var/lfs/sources/glibc-2.38-fhs-1.patch"
   case $(uname -m) in
     x86_64)
       ln -sf "../lib/ld-linux-x86-64.so.2" "${mnt_path}/lib64"

@@ -21,6 +21,8 @@ else
 fi
 
 sources=(
+  https://www.linuxfromscratch.org/patches/lfs/development/glibc-2.38-fhs-1.patch
+
   https://sourceware.org/pub/binutils/releases/binutils-2.41.tar.xz
   https://ftp.gnu.org/gnu/gcc/gcc-13.2.0/gcc-13.2.0.tar.xz
   https://ftp.gnu.org/gnu/mpfr/mpfr-4.2.1.tar.xz
